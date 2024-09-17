@@ -5,7 +5,7 @@ use {
 
 pub(crate) fn target() -> Target {
     Target {
-        triple: "riscv32i-unknown-none-elf".into(),
+        triple: "riscv32".into(),
         data_layout: target_data_layout!("e-m:e-p:32:32-i64:64-n32-S128"),
         pointer_width: 32,
         arch: "riscv32".into(),
