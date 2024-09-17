@@ -17,9 +17,10 @@
     never_type,
     negative_impls,
     array_windows,
-    step_trait
+    step_trait,
+    assert_matches,
+    new_zeroed_alloc
 )]
-#![feature(assert_matches)]
 #![allow(clippy::unit_arg, clippy::missing_safety_doc, clippy::should_implement_trait)]
 #![allow(internal_features)]
 #![deny(unused_must_use)]

@@ -1,9 +1,12 @@
-use crate::spec::{Cc, LinkerFlavor, Lld, RelocModel, Target, TargetOptions};
+use {
+    crate::spec::{Cc, LinkerFlavor, Lld, RelocModel, Target, TargetOptions},
+    macros::target_data_layout,
+};
 
 pub(crate) fn target() -> Target {
     Target {
         triple: "riscv32i-unknown-none-elf".into(),
-        data_layout: "e-m:e-p:32:32-i64:64-n32-S128".into(),
+        data_layout: target_data_layout!("e-m:e-p:32:32-i64:64-n32-S128"),
         pointer_width: 32,
         arch: "riscv32".into(),
         options: TargetOptions {
