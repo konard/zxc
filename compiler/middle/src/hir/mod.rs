@@ -1366,6 +1366,7 @@ impl ModuleData {
                         inlined: false,
                         linkage: if hix.instances[def].sig.abi == Abi::Zxc
                             || hix.instances[def].vis.is_public()
+                            || true
                         {
                             Linkage::External
                         } else {

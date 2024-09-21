@@ -128,6 +128,16 @@ mod parse {
             None => false,
         }
     }
+
+    pub(crate) fn parse_list(slot: &mut Vec<String>, v: Option<&str>) -> bool {
+        match v {
+            Some(s) => {
+                slot.extend(s.split_whitespace().map(|s| s.to_string()));
+                true
+            }
+            None => false,
+        }
+    }
 }
 
 #[allow(non_upper_case_globals, dead_code)]
@@ -135,6 +145,7 @@ mod desc {
     pub const parse_string: &str = "a string";
     pub const parse_opt_string: &str = parse_string;
     pub const parse_opt_pathbuf: &str = "a path";
+    pub const parse_list: &str = "a space-separated list of strings";
     pub const parse_bool: &str = "one of: `y`, `yes`, `on`, `true`, `n`, `no`, `off` or `false`";
     pub const parse_number: &str = "a number";
     pub const parse_opt_number: &str = parse_number;
@@ -188,6 +199,8 @@ options! {
 
     linker: Option<PathBuf> = (None, parse_opt_pathbuf, "system linker to link outputs with"),
     linker_flavor: Option<String> = (None, parse_opt_string, "linker flavor"),
+    link_args: Vec<String> = (Vec::new(), parse_list,
+        "extra arguments to append to the linker invocation (space separated)"),
     opt_level: OptLevel = (OptLevel::No, parse_opt_level,
         "optimization level (0-3, s, or z; default: 0)"),
     mir_opt_level: Option<usize> = (None, parse_opt_number,

@@ -3,6 +3,7 @@ use {
     std::{
         env,
         ffi::{OsStr, OsString},
+        path::Path,
     },
 };
 
@@ -21,19 +22,20 @@ impl dyn Linker + '_ {
     pub fn args(&mut self, args: impl IntoIterator<Item: AsRef<OsStr>>) {
         self.cmd().args(args);
     }
+
+    pub fn verbatim_args(&mut self, args: impl IntoIterator<Item: AsRef<OsStr>>) {
+        for arg in args {
+            self.cmd().arg(arg);
+        }
+    }
 }
 
-use {
-    middle::{spec::LinkerFlavor, Session},
-    std::path::Path,
-};
+use cc::windows_registry;
 
-use {
-    cc::windows_registry,
-    middle::{
-        sess::OptLevel,
-        spec::{Cc, LinkOutputKind, Lld},
-    },
+use middle::{
+    sess::OptLevel,
+    spec::{Cc, LinkOutputKind, LinkerFlavor, Lld},
+    Session,
 };
 
 /// Disables non-English messages from localized linkers.

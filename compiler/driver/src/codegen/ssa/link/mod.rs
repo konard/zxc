@@ -179,6 +179,10 @@ fn add_late_link_args(
     }
 }
 
+fn add_user_link_args(cmd: &mut dyn Linker, sess: &Session) {
+    cmd.verbatim_args(&sess.opts.C.link_args);
+}
+
 fn linker_with_args(
     path: &Path,
     flavor: LinkerFlavor,
@@ -213,6 +217,8 @@ fn linker_with_args(
         out_filename,
         tmpdir,
     );
+
+    add_user_link_args(cmd, sess);
 
     mem::replace(cmd.cmd(), Command::new(""))
 }
