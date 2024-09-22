@@ -1,4 +1,11 @@
-#![feature(let_chains, try_blocks, never_type, associated_type_bounds, type_alias_impl_trait)]
+#![feature(
+    let_chains,
+    try_blocks,
+    never_type,
+    associated_type_bounds,
+    type_alias_impl_trait,
+    exact_size_is_empty
+)]
 #![allow(clippy::let_unit_value, clippy::manual_range_contains)]
 
 mod cli;
@@ -13,15 +20,15 @@ use {
 };
 
 use middle::{
+    ErrorGuaranteed, IndexVec, Tx, TyCtx,
     ariadne::{self, Color, Label, Report, ReportKind},
-    errors::{color, DynEmitter, EmitterWriter, Handler, SourceFile, SourceMap},
+    errors::{DynEmitter, EmitterWriter, Handler, SourceFile, SourceMap, color},
     hir::{self, HirCtx, Hx},
     mir::{self, InstanceDef},
     par::WorkerLocal,
     rayon::prelude::*,
     sess::{self, EarlyErrorHandler, Options},
     symbol::Symbol,
-    ErrorGuaranteed, IndexVec, Tx, TyCtx,
 };
 
 use {
@@ -29,7 +36,7 @@ use {
     lexer::ParseBuffer,
     middle::{
         mir::interpret::InterpCx,
-        sess::{OutFileName, OutputType},
+        sess::{ModuleType, OutFileName, OutputType},
     },
     std::{
         collections::BTreeMap,
@@ -251,6 +258,8 @@ fn main() {
         c_flags,
         z_flags,
         emit,
+        module_types,
+        no_main,
         target,
         allow,
         warn,
@@ -294,6 +303,15 @@ fn main() {
             C: c_opts,
             output_types,
             lints: lint(allow, Allow).chain(lint(warn, Warn)).chain(lint(deny, Deny)).collect(),
+            module_types: module_types
+                .into_iter()
+                .map(|ty| match ty {
+                    cli::ModuleType::Bin => ModuleType::Executable,
+                    cli::ModuleType::Dylib => ModuleType::Dylib,
+                    cli::ModuleType::Staticlib => ModuleType::Staticlib,
+                })
+                .collect(),
+            no_main,
             ..Default::default()
         },
         input,
