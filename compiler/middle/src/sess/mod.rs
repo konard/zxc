@@ -9,8 +9,8 @@ pub use {
         EmitterWriter, Handler, IntoDiagnostic, Level, Noted, Style, SubDiagnostic,
     },
     output::{
-        check_file_is_writeable, filename_for_input, out_filename, OutFileName, OutputFilenames,
-        OutputType,
+        OutFileName, OutputFilenames, OutputType, check_file_is_writeable, filename_for_input,
+        out_filename,
     },
 };
 
@@ -221,6 +221,7 @@ pub struct Options {
     pub module_types: Vec<ModuleType>,
     pub output_types: BTreeMap<OutputType, Option<OutFileName>>,
     pub lints: Vec<(String, lint::Level)>,
+    pub no_main: bool,
 }
 
 pub fn host_triple() -> String {
@@ -236,6 +237,7 @@ impl Default for Options {
             module_types: Vec::new(),
             output_types: Default::default(),
             lints: Vec::new(),
+            no_main: false,
         }
     }
 }
