@@ -37,11 +37,9 @@ macro_rules! generate {
                 args: impl IntoIterator<Item: AsRef<OsStr>, IntoIter: ExactSizeIterator>,
             ) {
                let args = args.into_iter();
-                if self.is_cc() {
-                    args.for_each(|a| {
-                        self.cmd().arg(a);
-                    });
-                } else if !args.is_empty() {
+                if !self.is_cc() {
+                    self.verbatim_args(args);
+                } else if args.len() != 0 {
                     let mut combined_arg = OsString::from("-Wl");
                     for arg in args {
                         combined_arg.push(",");

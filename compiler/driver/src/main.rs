@@ -1,11 +1,4 @@
-#![feature(
-    let_chains,
-    try_blocks,
-    never_type,
-    associated_type_bounds,
-    type_alias_impl_trait,
-    exact_size_is_empty
-)]
+#![feature(let_chains, try_blocks, never_type, associated_type_bounds, type_alias_impl_trait)]
 #![allow(clippy::let_unit_value, clippy::manual_range_contains)]
 
 mod cli;
