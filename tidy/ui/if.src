@@ -9,5 +9,5 @@ fn main(_: isize, _: *const *const u8) -> isize {
     let b = true;
     let _ = if a { if b { true } else { false } } else { false };
 
-    if false { 1 } else { 0 }
+    if false { 1 } else { 1 }
 }

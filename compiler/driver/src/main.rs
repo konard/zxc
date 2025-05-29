@@ -13,15 +13,15 @@ use {
 };
 
 use middle::{
+    ErrorGuaranteed, IndexVec, Tx, TyCtx,
     ariadne::{self, Color, Label, Report, ReportKind},
-    errors::{color, DynEmitter, EmitterWriter, Handler, SourceFile, SourceMap},
+    errors::{DynEmitter, EmitterWriter, Handler, SourceFile, SourceMap, color},
     hir::{self, HirCtx, Hx},
     mir::{self, InstanceDef},
     par::WorkerLocal,
     rayon::prelude::*,
     sess::{self, EarlyErrorHandler, Options},
     symbol::Symbol,
-    ErrorGuaranteed, IndexVec, Tx, TyCtx,
 };
 
 use {
@@ -140,18 +140,20 @@ fn driver_impl<'tcx>(
     {
         use codegen::ssa::CodegenBackend;
 
-        let llvm = Box::new(codegen::llvm::LlvmBackend);
-        let codegen: Box<dyn CodegenBackend> = if let Some(backend) =
-            &tcx.sess.opts.Z.codegen_backend
-        {
-            match &backend[..] {
-                "llvm" => llvm,
-                "cranelift" => Box::new(codegen::cranelift::CraneliftBackend),
-                unsupported => tcx.sess.fatal(format!("`{unsupported}` backend is unsupported")),
-            }
-        } else {
-            llvm
-        };
+        let cranelift = Box::new(codegen::cranelift::CraneliftBackend);
+        let codegen: Box<dyn CodegenBackend> =
+            if let Some(backend) = &tcx.sess.opts.Z.codegen_backend {
+                match &backend[..] {
+                    #[cfg(feature = "llvm")]
+                    "llvm" => Box::new(codegen::llvm::LlvmBackend),
+                    "cranelift" => cranelift,
+                    unsupported => tcx.sess.fatal(format!(
+                        "`{unsupported}` backend is unsupported or not enabled by features"
+                    )),
+                }
+            } else {
+                cranelift
+            };
 
         codegen.init(tcx.sess);
 

@@ -1,6 +1,6 @@
 use {
-    crate::{graph::ControlFlowGraph, idx, Idx, IndexSlice, IndexVec},
-    smallvec::{smallvec, SmallVec},
+    crate::{Idx, IndexSlice, IndexVec, graph::ControlFlowGraph, idx},
+    smallvec::{SmallVec, smallvec},
     std::iter::Step,
 };
 
@@ -55,8 +55,13 @@ impl PreorderIndex {
 
 impl Step for PreorderIndex {
     #[inline]
-    fn steps_between(start: &Self, end: &Self) -> Option<usize> {
-        if *start <= *end { Some((*end - *start).index()) } else { None }
+    fn steps_between(start: &Self, end: &Self) -> (usize, Option<usize>) {
+        if *start <= *end {
+            let index = (*end - *start).index();
+            (index, Some(index))
+        } else {
+            (0, None)
+        }
     }
 
     #[inline]

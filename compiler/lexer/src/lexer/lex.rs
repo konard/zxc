@@ -1,6 +1,6 @@
 use {
-    super::{ast, Ident, Lex, Lit, LitBool, LitFloat, LitInt, LitStr, Span},
-    chumsky::{extra, prelude::*, text, IterParser, Parser},
+    super::{Ident, Lex, Lit, LitBool, LitFloat, LitInt, LitStr, Span, ast},
+    chumsky::{IterParser, Parser, extra, prelude::*, text},
     std::num::IntErrorKind,
 };
 

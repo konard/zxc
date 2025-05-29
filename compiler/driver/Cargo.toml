@@ -24,7 +24,10 @@ cc = { version = "1.0.83" }
 
 middle = { path = "../middle" }
 lexer = { path = "../lexer" }
-llvm = { path = "../llvm" }
+llvm = { path = "../llvm", optional = true }
 
 [target."cfg(windows)".dependencies]
 windows = { version = "0.52.0", features = ["Win32_Globalization"] }
+
+[features]
+default = []

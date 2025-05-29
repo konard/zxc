@@ -13,18 +13,16 @@ use {
 };
 
 use crate::{
-    abi,
+    FxHashMap, Session, abi,
     hir::{self, attr},
     lints::{self, LevelSource},
     mir::{
-        self,
+        self, IntTy, Mutability, PlaceElem, Ty, TyKind, UintTy,
         ty::{self, List},
-        IntTy, Mutability, PlaceElem, Ty, TyKind, UintTy,
     },
     par::{ShardedHashMap, WorkerLocal},
-    sess::{output, ModuleType, OutputFilenames},
+    sess::{ModuleType, OutputFilenames, output},
     symbol::{Ident, Symbol},
-    FxHashMap, Session,
 };
 
 mod private {

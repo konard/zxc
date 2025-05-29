@@ -11,7 +11,7 @@ use std::{
 
 use {
     arrayvec::ArrayVec,
-    smallvec::{smallvec, SmallVec},
+    smallvec::{SmallVec, smallvec},
 };
 
 use super::{Idx, IndexVec};

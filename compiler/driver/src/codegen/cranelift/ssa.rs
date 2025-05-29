@@ -1,8 +1,8 @@
 use {
     super::FunctionCx,
     middle::{
-        mir::{Local, Rvalue, StatementKind, Ty},
         IndexVec,
+        mir::{Local, Rvalue, StatementKind, Ty},
     },
 };
 

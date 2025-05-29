@@ -3,9 +3,7 @@ extern "C" {
 }
 
 fn assert(b: bool) {
-    if !b {
-        abort();
-    }
+    if !b { abort() }
 }
 
 fn main() {

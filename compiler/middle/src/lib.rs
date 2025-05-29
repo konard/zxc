@@ -6,20 +6,18 @@
     vec_into_raw_parts,
     dropck_eyepatch,
     extern_types,
-    new_uninit,
     maybe_uninit_slice,
-    strict_provenance,
     hash_raw_entry,
     core_intrinsics,
     mem_copy_fn,
-    const_option,
     box_patterns,
     never_type,
     negative_impls,
     array_windows,
-    step_trait
+    step_trait,
+    assert_matches,
+    new_zeroed_alloc
 )]
-#![feature(assert_matches)]
 #![allow(clippy::unit_arg, clippy::missing_safety_doc, clippy::should_implement_trait)]
 #![allow(internal_features)]
 #![deny(unused_must_use)]
@@ -47,7 +45,7 @@ pub mod tls;
 pub(crate) mod util;
 
 pub use {
-    errors::{self, ariadne, ErrorGuaranteed, FatalError, FatalErrorMarker},
+    errors::{self, ErrorGuaranteed, FatalError, FatalErrorMarker, ariadne},
     fx::*,
     idx::{BitSet, Idx, IndexSlice, IndexVec},
     mir::pretty,
@@ -58,7 +56,7 @@ pub use {
 pub(crate) use {
     lexer::Span,
     par::Lock,
-    symbol::{sym, Symbol},
+    symbol::{Symbol, sym},
 };
 
 pub use {rayon, rayon_core};
